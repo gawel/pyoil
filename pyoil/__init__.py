@@ -2,7 +2,7 @@
 import os
 from datetime import datetime
 from tinydb import TinyDB
-from bottle import route, run, template, request
+from bottle import route, run, template, request, default_app
 
 db = TinyDB(os.path.expanduser('~/.pyoil.json'))
 
@@ -18,3 +18,5 @@ def index():
 
 def main():
     run(host='0.0.0.0', port=4444)
+
+application = default_app()
