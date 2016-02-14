@@ -14,6 +14,7 @@
 <body>
 <div class="container">
 
+% if request.GET.get('form'):
 <div class="row">&nbsp;</div>
 
 <div class="row">
@@ -34,6 +35,8 @@
 </form>
 </div>
 
+% end
+
 <div class="row">&nbsp;</div>
 
 <div class="row">
@@ -48,14 +51,21 @@
         % for r in records:
             %if 'price' in r:
                 <tr>
-                    <td>{{r['date']}}</td>
+                    <td>{{r['created']}}</td>
                     <td>{{r['price']}}</td>
                     <td>{{r['litres']}}</td>
                     <td>{{r['km']}}</td>
-                    <td>{{r['km'] / r['litres']}}</td>
+                    <td>{{r['conso']}}</td>
                 </tr>
             % end
         % end
+        <tr>
+            <th>Total</th>
+            <th>{{total['price']}}</th>
+            <th>{{total['litres']}}</th>
+            <th>{{total['km']}}</th>
+            <th>{{total['conso']}}</th>
+        </tr>
     </table>
 </div>
 
