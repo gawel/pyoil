@@ -52,19 +52,19 @@
             %if 'price' in r:
                 <tr>
                     <td>{{r['created']}}</td>
-                    <td>{{r['price']}}</td>
-                    <td>{{r['litres']}}</td>
-                    <td>{{r['km']}}</td>
-                    <td>{{r['conso']}}</td>
+                    <td>{{r['price']}}€</td>
+                    <td>{{r['litres']}}l</td>
+                    <td>{{r['km']}}km</td>
+                    <td>{{r['conso']}}l/100km</td>
                 </tr>
             % end
         % end
         <tr>
             <th>Total</th>
-            <th>{{total['price']}}</th>
-            <th>{{total['litres']}}</th>
-            <th>{{total['km']}}</th>
-            <th>{{total['conso']}}</th>
+            <th>{{total['price']}}€</th>
+            <th>{{total['litres']}}l</th>
+            <th>{{total['km']}}km</th>
+            <th>{{total['conso']}}l/100km</th>
         </tr>
     </table>
 </div>
