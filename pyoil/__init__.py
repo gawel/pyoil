@@ -19,7 +19,7 @@ def update_conso(r):
 @route('/', method='POST')
 def index():
     if request.forms:
-        db.insert(dict({k: int(v) for k, v in request.forms.items()},
+        db.insert(dict({k: float(v.replace(',', '.')) for k, v in request.forms.items()},
                        created=datetime.now().strftime('%Y-%m-%d')))
     records = db.all()
     t = dict(km=0, litres=0, price=0)
