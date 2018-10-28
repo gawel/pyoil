@@ -17,6 +17,7 @@ ifeq ($(HOSTNAME), $(HOST))
 	git pull origin master
 	~/apps/bin/circusctl restart $(APP)
 else
+	git push origin master
 	ssh $(HOST) "cd ~/apps/$(APP) && make upgrade"
 endif
 
