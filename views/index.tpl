@@ -1,5 +1,13 @@
 % rebase('base.tpl', title="PyOil")
 <div class="back row">
+    <form>
+        <select class="form-control"
+                onchange="window.location.href = this.value">
+        % for value, label, selected in options:
+            <option value="{{ value }}" {{ selected }}>{{ label }}</option>
+        % end
+        </select>
+    </form>
     <table class="table">
         <tr>
             <th>Date</th>
@@ -10,7 +18,7 @@
         </tr>
         % for r in records:
             %if 'price' in r:
-                <tr>
+                <tr class="{{ r.get('css_class', 'none') }}">
                     <td>{{r['created']}}</td>
                     <td class="no-mobile">{{r['price']}}€</td>
                     <td>{{r['litres']}}l</td>

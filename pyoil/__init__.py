@@ -26,18 +26,71 @@ def update_conso(r):
 
 
 @route('/')
-def index():
+@route('/<year:re:\d+>')
+@route('/<year:re:\d+>/<month:re:\d+>')
+def index(year='', month=''):
     if request.GET.get('form'):
         return redirect('/new')
-    records = []
+    match = ''
+    if year:
+        match = year
+    if month:
+        match += '-' + month
+
     t = dict(km=0, litres=0, price=0)
-    for r in db.all():
+    mt = dict(km=0, litres=0, price=0)
+    yt = dict(km=0, litres=0, price=0, css_class='text-danger')
+
+    options = set()
+
+    def update_totals(r, force=False):
+        if month:
+            return
+        if force or not r['created'].startswith(mt['created']):
+            if mt:
+                update_conso(mt)
+                records.insert(0, mt.copy())
+            md = r['created'][:-3]
+            mt.update(created=md, km=0, litres=0, price=0)
+        if year:
+            return
+        if force or not r['created'].startswith(yt['created']):
+            if yt:
+                update_conso(yt)
+                records.insert(0, yt.copy())
+            yd = r['created'][:-6]
+            yt.update(created=yd, km=0, litres=0, price=0)
+
+    records = []
+    for i, r in enumerate(db.all()):
+        options.add(r['created'][:-3])
+        options.add(r['created'][:-6])
+        if not r['created'].startswith(match):
+            continue
+        if 'created' not in mt:
+            mt.update(created=r['created'][:-3])
+            yt.update(created=r['created'][:-6])
+        else:
+            update_totals(r)
         for k in t:
             t[k] += r[k]
+            mt[k] += r[k]
+            yt[k] += r[k]
         update_conso(r)
-        records.insert(0, r)
+        if month:
+            records.insert(0, r)
+
+    if records:
+        update_totals({'created': ''}, force=True)
     update_conso(t)
-    return template('index', total=t, records=records, request=request)
+    options = [('/', 'All monthes')] + [
+        ('/' + v.replace('-', '/'), v) for v in sorted(options, reverse=True)
+    ]
+    options = [
+        (v, l, v == request.path and 'selected="selected"' or '')
+        for v, l in options
+    ]
+    return template('index', total=t, records=records, options=options)
 
 
 @route("/statics/<filepath:re:.*\.jpg>")

@@ -20,6 +20,10 @@ div.index {
     margin: auto;
 }
 
+tr.month, tr.year {
+    font-weight: bold;
+}
+
 @media (max-width: 640px) {
     div.index div.alert {
         font-size: 120%;
