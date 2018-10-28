@@ -115,6 +115,11 @@ def new():
     return template('new', request=request)
 
 
+@route('/<path:path>')
+def error_404(path):
+    return redirect('/')
+
+
 def main():
     if 'ADMIN_PASSWORD' not in os.environ:
         debug(mode=True)
