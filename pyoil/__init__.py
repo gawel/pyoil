@@ -11,7 +11,8 @@ db = TinyDB(os.path.expanduser('~/.pyoil.json'))
 
 
 def check_auth(user, pw):
-    if pw == os.environ.get('ADMIN_PASSWORD', 'itson'):
+    auth = ('admimin', os.environ.get('ADMIN_PASSWORD', 'passwd'))
+    if (user, pw) == auth:
         return True
     return False
 
