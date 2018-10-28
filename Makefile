@@ -1,6 +1,6 @@
-APP=$(shell basename `pwd`)
-HOSTNAME=$(shell hostname)
-HOST=amandine
+APP:=$(shell basename `pwd`)
+HOSTNAME:=$(shell hostname)
+HOST:=amandine
 
 venv:
 	python3 -m venv venv
@@ -8,6 +8,9 @@ venv:
 
 serve: venv
 	./venv/bin/$(APP)
+
+sync:
+	scp amandine:~/.$(APP).json ~/.$(APP).json
 
 upgrade:
 ifeq ($(HOSTNAME), $(HOST))
