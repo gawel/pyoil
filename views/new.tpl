@@ -18,7 +18,7 @@
            required="required" placeholder="Km">
  </div>
  <div class="form-group">
-    <button type="submit" class="btn-lg btn-primary">Send</button>
+    <button type="submit" class="btn btn-lg btn-primary">Send</button>
     <a href="/" class="btn btn-lg btn-danger">Cancel</a>
  </div>
 </form>
