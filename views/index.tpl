@@ -18,7 +18,7 @@
             <th>Km</th>
             <th>Conso</th>
         </tr>
-        % f2018/10/newor r in records:
+        % for r in records:
             %if 'price' in r:
                 <tr class="{{ r.get('css_class', 'none') }}">
                     <td><a href="/{{r['created'].replace('-', '/')}}"
