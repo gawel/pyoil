@@ -19,7 +19,8 @@
         % for r in records:
             %if 'price' in r:
                 <tr class="{{ r.get('css_class', 'none') }}">
-                    <td>{{r['created']}}</td>
+                    <td><a href="/{{r['created'].replace('-', '/')}}"
+                           >{{r['created']}}</a></td>
                     <td class="no-mobile">{{r['price']}}€</td>
                     <td>{{r['litres']}}l</td>
                     <td>{{r['km']}}km</td>

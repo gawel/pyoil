@@ -28,7 +28,8 @@ def update_conso(r):
 @route('/')
 @route('/<year:re:\d+>')
 @route('/<year:re:\d+>/<month:re:\d+>')
-def index(year='', month=''):
+@route('/<year:re:\d+>/<month:re:\d+>/<day:re:\d+>')
+def index(year='', month='', **kwargs):
     if request.GET.get('form'):
         return redirect('/new')
     match = ''
@@ -86,8 +87,10 @@ def index(year='', month=''):
     options = [('/', 'All monthes')] + [
         ('/' + v.replace('-', '/'), v) for v in sorted(options, reverse=True)
     ]
+    match = match or ''
+    match = '/' + match.replace('-', '/')
     options = [
-        (v, l, v == request.path and 'selected="selected"' or '')
+        (v, l, v == match and 'selected="selected"' or '')
         for v, l in options
     ]
     return template('index', total=t, records=records, options=options)
