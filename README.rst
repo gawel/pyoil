@@ -16,7 +16,9 @@ Start the app for testing::
 
 $ make serve
 
+Go to http://localhost:4444/new
+
 Use whatever wsgi server for production. `pyoil.application` is a wsgi app::
 
-$ ./venv/bin/chaussette pyoil.application --port 8080
+$ ADMIN_PASSWORD=yourpassword ./venv/bin/chaussette pyoil.application --port 8080
 
