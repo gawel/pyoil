@@ -18,6 +18,8 @@ $ make serve
 
 Go to http://localhost:4444/new
 
+Default login/password is: admimin / passwd
+
 Use whatever wsgi server for production. `pyoil.application` is a wsgi app::
 
 $ ADMIN_PASSWORD=yourpassword ./venv/bin/chaussette pyoil.application --port 8080
