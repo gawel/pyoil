@@ -3,7 +3,7 @@ import os
 from datetime import datetime
 from tinydb import TinyDB
 from bottle import (
-    route, run, template, request, default_app, redirect,
+    route, run, debug, template, request, default_app, redirect,
     auth_basic, static_file,
 )
 
@@ -116,6 +116,8 @@ def new():
 
 
 def main():
+    if 'ADMIN_PASSWORD' not in os.environ:
+        debug(mode=True)
     run(host='0.0.0.0', port=4444, reloader=True)
 
 
