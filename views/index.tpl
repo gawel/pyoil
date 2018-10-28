@@ -1,12 +1,14 @@
 % rebase('base.tpl', title="PyOil")
 <div class="back row">
-    <form>
+    <form class="form-inline">
         <select class="form-control"
                 onchange="window.location.href = this.value">
         % for value, label, selected in options:
             <option value="{{ value }}" {{ selected }}>{{ label }}</option>
         % end
         </select>
+        <span>&nbsp;</span>
+        <a href="/new" class="btn btn-primary">New</a>
     </form>
     <table class="table">
         <tr>

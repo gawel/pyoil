@@ -107,10 +107,11 @@ def images(filepath):
 @auth_basic(check_auth)
 def new():
     if request.forms:
+        now = datetime.now()
         db.insert(dict(
             {k: float(v.replace(',', '.')) for k, v in request.forms.items()},
-            created=datetime.now().strftime('%Y-%m-%d')))
-        redirect('/')
+            created=now.strftime('%Y-%m-%d')))
+        redirect(now.strftime('/%Y/%m'))
     return template('new', request=request)
 
 
