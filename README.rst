@@ -24,3 +24,5 @@ Use whatever wsgi server for production. `pyoil.application` is a wsgi app::
 
 $ ADMIN_PASSWORD=yourpassword ./venv/bin/chaussette pyoil.application --port 8080
 
+PyOil use `TinyDB <https://tinydb.readthedocs.io/en/latest/>`_ The database is
+located at `~/.pyoil.json`
