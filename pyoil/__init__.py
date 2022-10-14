@@ -3,10 +3,16 @@ import os
 from datetime import datetime
 from tinydb import TinyDB
 from bottle import (
-    route, run, debug, template, request, default_app, redirect,
+    Bottle,
+    run, debug, template, request, redirect,
     auth_basic, static_file,
 )
 
+ROOT = os.path.dirname(os.path.dirname(__file__))
+TEMPLATE_PATH = [os.path.join(ROOT, 'views')]
+STATICS_PATH = os.path.join(ROOT, 'statics')
+
+app = Bottle()
 db = TinyDB(os.path.expanduser('~/.pyoil.json'))
 
 
@@ -25,10 +31,10 @@ def update_conso(r):
     r['conso'] = '%.2f' % c
 
 
-@route('/')
-@route('/<year:re:\d+>')
-@route('/<year:re:\d+>/<month:re:\d+>')
-@route('/<year:re:\d+>/<month:re:\d+>/<day:re:\d+>')
+@app.route('/')
+@app.route(r'/<year:re:\d+>')
+@app.route(r'/<year:re:\d+>/<month:re:\d+>')
+@app.route(r'/<year:re:\d+>/<month:re:\d+>/<day:re:\d+>')
 def index(year='', month='', **kwargs):
     if request.GET.get('form'):
         return redirect('/new')
@@ -93,17 +99,20 @@ def index(year='', month='', **kwargs):
         (v, l, v == match and 'selected="selected"' or '')
         for v, l in options
     ]
-    return template('index', total=t, records=records, options=options)
+    return template(
+        'index', total=t, records=records, options=options,
+        template_lookup=TEMPLATE_PATH,
+    )
 
 
-@route("/statics/<filepath:re:.*\.jpg>")
-@route("/statics/<filepath:re:.*\.css>")
+@app.route(r"/statics/<filepath:re:.*\.jpg>")
+@app.route(r"/statics/<filepath:re:.*\.css>")
 def images(filepath):
-    return static_file(filepath, root="statics")
+    return static_file(filepath, root=STATICS_PATH)
 
 
-@route('/new')
-@route('/new', method='POST')
+@app.route('/new')
+@app.route('/new', method='POST')
 @auth_basic(check_auth)
 def new():
     if request.forms:
@@ -112,10 +121,13 @@ def new():
             {k: float(v.replace(',', '.')) for k, v in request.forms.items()},
             created=now.strftime('%Y-%m-%d')))
         redirect(now.strftime('/%Y/%m'))
-    return template('new', request=request)
+    return template(
+        'new', request=request,
+        template_lookup=TEMPLATE_PATH,
+    )
 
 
-@route('/<path:path>')
+@app.route('/<path:path>')
 def error_404(path):
     return redirect('/')
 
@@ -123,7 +135,7 @@ def error_404(path):
 def main():
     if 'ADMIN_PASSWORD' not in os.environ:
         debug(mode=True)
-    run(host='0.0.0.0', port=4444, reloader=True)
+    run(app, host='0.0.0.0', port=4444, reloader=True)
 
 
-application = default_app()
+application = app

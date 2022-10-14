@@ -33,8 +33,6 @@ setup(
     install_requires=[
         'tinydb',
         'bottle',
-        'gevent',
-        'chaussette',
     ],
     extras_require={
         'test': [
